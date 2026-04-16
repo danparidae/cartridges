@@ -14,6 +14,7 @@ from cartridges import STATE_SETTINGS
 from cartridges.collections import Collection
 from cartridges.config import PREFIX, PROFILE
 from cartridges.games import Game
+from cartridges.placeholder import PlaceholderList
 
 from . import closures, collections, games, sources
 from .collections import CollectionActions, CollectionSidebarItem
@@ -85,7 +86,14 @@ class Window(Adw.ApplicationWindow):
         STATE_SETTINGS.bind("show-sidebar", self.split_view, "show-sidebar", flags)
 
         self.sources.bind_model(sources.model, SourceSidebarItem)
-        self.collections.bind_model(collections.model, CollectionSidebarItem)
+        self.collections.bind_model(
+            PlaceholderList(collections.model),
+            lambda item: (
+                self.new_collection_item
+                if item.is_placeholder
+                else CollectionSidebarItem(item.object)
+            ),
+        )
 
         self.add_action(STATE_SETTINGS.create_action("show-sidebar"))
         self.add_action(STATE_SETTINGS.create_action("sort-mode"))

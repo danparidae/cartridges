@@ -3,6 +3,7 @@ cartridges/collections.py
 cartridges/cover.py
 cartridges/gamepads.py
 cartridges/games.py
+cartridges/placeholder.py
 cartridges/sources/__init__.py
 cartridges/sources/desktop.py
 cartridges/sources/heroic.py
